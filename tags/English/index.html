@@ -186,20 +186,27 @@
 
 
 <!-- ====== 看板娘 JS START ====== -->
-<!-- Live2D Widget -->
-<script src="https://fastly.jsdelivr.net/npm/live2d-widget@3.2.2/lib/L2Dwidget.min.js"></script>
+<script src="https://unpkg.com/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
 <script>
   L2Dwidget.init({
     model: {
-      jsonPath: "https://fastly.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json"
+      jsonPath: "https://unpkg.com/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json",
+      scale: 1
     },
     display: {
       position: "right",
       width: 150,
-      height: 300
+      height: 300,
+      hOffset: 0,
+      vOffset: -20
     },
-    mobile: { show: true },
-    react: { opacityDefault: 1, opacityOnHover: 0.2 }
+    mobile: {
+      show: false
+    },
+    react: {
+      opacityDefault: 0.7,
+      opacityOnHover: 0.95
+    }
   });
 </script>
 <!-- ====== 看板娘 JS END ====== -->
