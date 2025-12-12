@@ -752,44 +752,21 @@
 
 
 <!-- ====== 看板娘 JS START ====== -->
-<script src="https://unpkg.com/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/waifu-tips@1.3.0/waifu-tips.min.js"></script>
-
+<!-- Live2D Widget -->
+<script src="https://fastly.jsdelivr.net/npm/live2d-widget@3.2.2/lib/L2Dwidget.min.js"></script>
 <script>
   L2Dwidget.init({
     model: {
-      jsonPath: "https://unpkg.com/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json",
-      scale: 1
+      jsonPath: "https://fastly.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json"
     },
     display: {
       position: "right",
       width: 150,
-      height: 300,
-      hOffset: 0,
-      vOffset: -20
+      height: 300
     },
-    mobile: {
-      show: false
-    },
-    react: {
-      opacityDefault: 0.7,
-      opacityOnHover: 0.95
-    }
+    mobile: { show: true },
+    react: { opacityDefault: 1, opacityOnHover: 0.2 }
   });
-
-  const messages = [
-    "欢迎来到我的博客！",
-    "今天也要加油哦~",
-    "记得关注我的文章哦！",
-    "不要走，陪我聊会天吧～"
-  ];
-
-  setInterval(() => {
-    const msg = messages[Math.floor(Math.random() * messages.length)];
-    if (typeof L2Dwidget !== "undefined") {
-      L2Dwidget.showMessage(msg, 5000);
-    }
-  }, 10000);
 </script>
 <!-- ====== 看板娘 JS END ====== -->
 </body>
