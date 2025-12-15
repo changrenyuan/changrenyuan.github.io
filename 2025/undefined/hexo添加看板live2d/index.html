@@ -14,7 +14,7 @@
 <meta property="og:description" content="搜到的基本上是安装插件 hexo-oh-my-live2d 太麻烦了。 只要自己加一段代码在scripts.ejs文件最末尾就好了。 12345678910111213141516171819202122232425&lt;!-- &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 看板娘 JS START &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; --&gt;&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;unpkg.com&#x2F;live2d-widge">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-12-12T08:51:03.000Z">
-<meta property="article:modified_time" content="2025-12-15T03:54:24.890Z">
+<meta property="article:modified_time" content="2025-12-15T08:00:55.929Z">
 <meta property="article:author" content="changrenyuan">
 <meta property="article:tag" content="UI">
 <meta property="article:tag" content="skills">
@@ -72,6 +72,8 @@
        --><li><a href="/">首页</a></li><!--
      --><!--
        --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/comments/">留言</a></li><!--
      --><!--
        --><li><a href="/tags/">标签</a></li><!--
      --><!--
@@ -179,6 +181,7 @@
 
 
 
+
         
           <div id="footer-post-container">
   <div id="footer-post">
@@ -189,6 +192,8 @@
           <li><a href="/">首页</a></li>
         
           <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/comments/">留言</a></li>
         
           <li><a href="/tags/">标签</a></li>
         
@@ -249,6 +254,8 @@
        --><li><a href="/">首页</a></li><!--
      --><!--
        --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/comments/">留言</a></li><!--
      --><!--
        --><li><a href="/tags/">标签</a></li><!--
      --><!--
@@ -344,5 +351,76 @@
   });
 </script>
 <!-- ====== 看板娘 JS END ====== -->
+
+<!-- Worker API 留言板（模仿 Disqus 动态生成表单和留言列表） -->
+<script>
+(function(){
+  const API = "https://blog-backend.changrenyuan.workers.dev/api/message/";
+  // 创建留言板容器并插入到页面底部
+  const container = document.createElement("div");
+  container.id = "guestbook-container";
+  container.style.marginTop = "2em";
+  container.style.borderTop = "1px solid #ccc";
+  container.style.paddingTop = "1em";
+  document.body.appendChild(container);
+
+  // 创建留言板表单
+  const form = document.createElement("div");
+  form.id = "guestbook-form";
+  form.innerHTML = `
+    <h3>留言板</h3>
+    <input type="text" id="guestbook-name" placeholder="你的名字" />
+    <textarea id="guestbook-content" placeholder="写下你的留言"></textarea>
+    <button id="guestbook-submit">提交</button>
+    <div id="guestbook-list" style="margin-top:1em;"></div>
+  `;
+  container.appendChild(form);
+
+  const listEl = form.querySelector("#guestbook-list");
+
+  // 渲染留言
+  async function fetchMessages(){
+    try {
+      const res = await fetch(API);
+      const data = await res.json();
+      listEl.innerHTML = '';
+      data.forEach(msg=>{
+        const div = document.createElement("div");
+        div.className = "guestbook-item";
+        div.textContent = `[${new Date(msg.created_at).toLocaleString()}] ${msg.name}: ${msg.content}`;
+        listEl.appendChild(div);
+      });
+    } catch(e){
+      listEl.textContent = "加载留言失败";
+      console.error(e);
+    }
+  }
+
+  fetchMessages();
+
+  // 提交留言
+  form.querySelector("#guestbook-submit").addEventListener("click", async ()=>{
+    const name = form.querySelector("#guestbook-name").value.trim();
+    const content = form.querySelector("#guestbook-content").value.trim();
+    if(!name || !content){
+      alert("请填写名字和留言");
+      return;
+    }
+    try {
+      await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, content })
+      });
+      form.querySelector("#guestbook-name").value = '';
+      form.querySelector("#guestbook-content").value = '';
+      fetchMessages();
+    } catch(e){
+      alert("提交失败，请稍后重试");
+    }
+  });
+})();
+</script>
+
 </body>
 </html>

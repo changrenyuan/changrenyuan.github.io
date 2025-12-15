@@ -78,6 +78,8 @@
    --><!--
      --><li><a href="/about/">关于</a></li><!--
    --><!--
+     --><li><a href="/comments/">留言</a></li><!--
+   --><!--
      --><li><a href="/tags/">标签</a></li><!--
    --><!--
      --><li><a href="/categories/">分类</a></li><!--
@@ -255,6 +257,7 @@
 
 
 
+
         
         <footer id="footer">
   <div class="footer-left">
@@ -271,6 +274,8 @@
        --><li><a href="/">首页</a></li><!--
      --><!--
        --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/comments/">留言</a></li><!--
      --><!--
        --><li><a href="/tags/">标签</a></li><!--
      --><!--
@@ -343,5 +348,76 @@
   });
 </script>
 <!-- ====== 看板娘 JS END ====== -->
+
+<!-- Worker API 留言板（模仿 Disqus 动态生成表单和留言列表） -->
+<script>
+(function(){
+  const API = "https://blog-backend.changrenyuan.workers.dev/api/message/";
+  // 创建留言板容器并插入到页面底部
+  const container = document.createElement("div");
+  container.id = "guestbook-container";
+  container.style.marginTop = "2em";
+  container.style.borderTop = "1px solid #ccc";
+  container.style.paddingTop = "1em";
+  document.body.appendChild(container);
+
+  // 创建留言板表单
+  const form = document.createElement("div");
+  form.id = "guestbook-form";
+  form.innerHTML = `
+    <h3>留言板</h3>
+    <input type="text" id="guestbook-name" placeholder="你的名字" />
+    <textarea id="guestbook-content" placeholder="写下你的留言"></textarea>
+    <button id="guestbook-submit">提交</button>
+    <div id="guestbook-list" style="margin-top:1em;"></div>
+  `;
+  container.appendChild(form);
+
+  const listEl = form.querySelector("#guestbook-list");
+
+  // 渲染留言
+  async function fetchMessages(){
+    try {
+      const res = await fetch(API);
+      const data = await res.json();
+      listEl.innerHTML = '';
+      data.forEach(msg=>{
+        const div = document.createElement("div");
+        div.className = "guestbook-item";
+        div.textContent = `[${new Date(msg.created_at).toLocaleString()}] ${msg.name}: ${msg.content}`;
+        listEl.appendChild(div);
+      });
+    } catch(e){
+      listEl.textContent = "加载留言失败";
+      console.error(e);
+    }
+  }
+
+  fetchMessages();
+
+  // 提交留言
+  form.querySelector("#guestbook-submit").addEventListener("click", async ()=>{
+    const name = form.querySelector("#guestbook-name").value.trim();
+    const content = form.querySelector("#guestbook-content").value.trim();
+    if(!name || !content){
+      alert("请填写名字和留言");
+      return;
+    }
+    try {
+      await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, content })
+      });
+      form.querySelector("#guestbook-name").value = '';
+      form.querySelector("#guestbook-content").value = '';
+      fetchMessages();
+    } catch(e){
+      alert("提交失败，请稍后重试");
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
