@@ -765,6 +765,8 @@
       const API = "https://api.yikii.cn/api/message";
       
       // --- 1. 注入 CSS 样式 (现代化风格) ---
+      const target = document.getElementById('comments-section');
+      if (!target) return;
       const style = document.createElement('style');
       style.textContent = `
           /* 容器样式 */
@@ -874,8 +876,7 @@
           </div>
       `;
       
-      // 插入到页面中 (优先寻找 id="comments-section"，找不到则插到 body 底部)
-      const target = document.getElementById('comments-section') || document.body;
+
       target.appendChild(container);
 
       // --- 3. 逻辑处理 ---
