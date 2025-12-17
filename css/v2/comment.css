@@ -1,0 +1,10 @@
+.comment-item { margin-bottom: 12px; }
+.barrage-item {
+  position: absolute;
+  white-space: nowrap;
+  animation: move 12s linear forwards;
+}
+@keyframes move {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}
