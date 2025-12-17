@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="命令行界面使用 Cloudflare 开发者平台 CLI Wrangler 设置并部署您的第一个 Worker。 本指南将指导您完成第一个 Worker 的设置和部署。 先决条件  注册Cloudflare 帐户↗。 安装Node.js↗。  Node.js 版本管理器 使用Volta ↗或nvm ↗等 Node 版本管理器可以避免权限问题并更改 Node.js 版本。本指南稍后将讨论的Wrang">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CloudflareWorkers 入门">
+<meta property="og:url" content="http://example.com/2025/undefined/CloudflareWorkers2/index.html">
+<meta property="og:site_name" content="春日朝花">
+<meta property="og:description" content="命令行界面使用 Cloudflare 开发者平台 CLI Wrangler 设置并部署您的第一个 Worker。 本指南将指导您完成第一个 Worker 的设置和部署。 先决条件  注册Cloudflare 帐户↗。 安装Node.js↗。  Node.js 版本管理器 使用Volta ↗或nvm ↗等 Node 版本管理器可以避免权限问题并更改 Node.js 版本。本指南稍后将讨论的Wrang">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-17T01:44:12.000Z">
+<meta property="article:modified_time" content="2025-12-17T02:30:57.273Z">
+<meta property="article:author" content="changrenyuan">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-192x192.png">
+        
+      
+    
+    <!-- title -->
+    <title>CloudflareWorkers 入门</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/comments/">留言</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/changrenyuan">项目</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/zh/CloudflareWorkers1/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/undefined/CloudflareWorkers2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/undefined/CloudflareWorkers2/&text=CloudflareWorkers 入门"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/undefined/CloudflareWorkers2/&is_video=false&description=CloudflareWorkers 入门"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CloudflareWorkers 入门&body=Check out this article: http://example.com/2025/undefined/CloudflareWorkers2/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/undefined/CloudflareWorkers2/&name=CloudflareWorkers 入门&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/undefined/CloudflareWorkers2/&t=CloudflareWorkers 入门"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%95%8C%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">命令行界面</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">先决条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84-Worker-%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.2.</span> <span class="toc-text">1. 创建一个新的 Worker 项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8-Wrangler-CLI-%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91"><span class="toc-number">1.3.</span> <span class="toc-text">2. 使用 Wrangler CLI 进行开发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">3. 编写代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.5.</span> <span class="toc-text">4. 部署你的项目</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        CloudflareWorkers 入门
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">changrenyuan</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-12-17T01:44:12.000Z" class="dt-published" itemprop="datePublished">2025-12-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="命令行界面"><a href="#命令行界面" class="headerlink" title="命令行界面"></a>命令行界面</h1><p>使用 Cloudflare 开发者平台 CLI Wrangler 设置并部署您的第一个 Worker。</p>
+<p>本指南将指导您完成第一个 Worker 的设置和部署。</p>
+<h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><p><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/get-started/guide/#prerequisites"></a></p>
+<ol>
+<li>注册<a target="_blank" rel="noopener" href="https://dash.cloudflare.com/sign-up/workers-and-pages">Cloudflare 帐户↗</a>。</li>
+<li>安装<a target="_blank" rel="noopener" href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm"><code>Node.js</code>↗</a>。</li>
+</ol>
+<p>Node.js 版本管理器</p>
+<p><a target="_blank" rel="noopener" href="https://volta.sh/">使用Volta ↗</a>或<a target="_blank" rel="noopener" href="https://github.com/nvm-sh/nvm">nvm ↗</a>等 Node 版本管理器可以避免权限问题并更改 Node.js 版本。本指南稍后将讨论的<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/wrangler/install-and-update/">Wrangler</a>需要 Node 版本 10.0<code>16.17.0</code>或更高版本。</p>
+<h2 id="1-创建一个新的-Worker-项目"><a href="#1-创建一个新的-Worker-项目" class="headerlink" title="1. 创建一个新的 Worker 项目"></a>1. 创建一个新的 Worker 项目</h2><p><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/get-started/guide/#1-create-a-new-worker-project"></a></p>
+<p>打开终端窗口并运行 C3 来创建您的 Worker 项目。C3 <a target="_blank" rel="noopener" href="https://github.com/cloudflare/workers-sdk/tree/main/packages/create-cloudflare">( <code>create-cloudflare-cli</code>) ↗</a>是一个命令行工具，旨在帮助您设置新应用程序并将其部署到 Cloudflare。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/get-started/guide/#tab-panel-3563">npm</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/get-started/guide/#tab-panel-3564">yarn</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/get-started/guide/#tab-panel-3565">pnpm</a></li>
+</ul>
+<p>终端窗口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm create cloudflare@latest -- my-first-worker</span><br></pre></td></tr></table></figure>
+
+<p>设置时，请选择以下选项：</p>
+<ul>
+<li>对于*“您想从哪里开始？”*，请选择<code>Hello World example</code>。</li>
+<li>对于*“您想使用哪个模板？”*，请选择<code>Worker only</code>。</li>
+<li>对于*“您想使用哪种语言？”*，请选择<code>JavaScript</code>。</li>
+<li>对于“<em>是否使用 Git 进行版本控制？”</em>，请选择<code>Yes</code>。</li>
+<li>对于“<em>是否要部署您的应用程序？”</em>，请选择<code>No</code>（我们将在部署前进行一些更改）。</li>
+</ul>
+<p>现在，您已经创建了一个新项目。请进入该项目文件夹。</p>
+<p>终端窗口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd my-first-worker</span><br></pre></td></tr></table></figure>
+
+<p>C3 创建了哪些文件？</p>
+<p>在您的项目目录中，C3 将生成以下内容：</p>
+<ul>
+<li><code>wrangler.jsonc</code>：您的<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/wrangler/configuration/#sample-wrangler-configuration">Wrangler</a>配置文件。</li>
+<li><code>index.js</code>（在）：一个用<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/reference/migrate-to-module-workers/">ES 模块</a><code>/src</code>语法编写的最小<code>&#39;Hello World!&#39;</code>Worker 。<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/reference/migrate-to-module-workers/"></a></li>
+<li><code>package.json</code>：一个最小化的Node依赖配置文件。</li>
+<li><code>package-lock.json</code>：请参阅<a target="_blank" rel="noopener" href="https://docs.npmjs.com/cli/v9/configuring-npm/package-lock-json">↗</a><a target="_blank" rel="noopener" href="https://docs.npmjs.com/cli/v9/configuring-npm/package-lock-json"><code>npm</code>上的文档<code>package-lock.json</code></a>。</li>
+<li><code>node_modules</code>：请参阅<a target="_blank" rel="noopener" href="https://docs.npmjs.com/cli/v7/configuring-npm/folders#node-modules"><code>npm</code>文档<code>node_modules</code>↗</a>。</li>
+</ul>
+<p>如果我已经有一个项目在 Git 仓库中了怎么办？</p>
+<p>除了使用 C3 模板创建新项目外，C3 还支持从现有的 Git 仓库创建新项目。要从现有的 Git 仓库创建新项目，请打开终端并运行以下命令：</p>
+<p>终端窗口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm create cloudflare@latest -- --template &lt;SOURCE&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;SOURCE&gt;</code>可以是以下任何一种情况：</p>
+<ul>
+<li><code>user/repo</code>（GitHub）</li>
+<li><code>git@github.com:user/repo</code></li>
+<li><code>https://github.com/user/repo</code></li>
+<li><code>user/repo/some-template</code>（子目录）</li>
+<li><code>user/repo#canary</code>（分支）</li>
+<li><code>user/repo#1234abcd</code>（提交哈希）</li>
+<li><code>bitbucket:user/repo</code>(Bitbucket)</li>
+<li><code>gitlab:user/repo</code>（GitLab）</li>
+</ul>
+<p>为满足 Cloudflare Workers 的要求，您现有的模板文件夹至少必须包含以下文件：</p>
+<ul>
+<li><code>package.json</code></li>
+<li><code>wrangler.jsonc</code> <a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/wrangler/configuration/#sample-wrangler-configuration">请参阅 Wrangler 配置示例</a></li>
+<li><code>src/</code>包含一个从以下位置引用的工作脚本<code>wrangler.jsonc</code></li>
+</ul>
+<h2 id="2-使用-Wrangler-CLI-进行开发"><a href="#2-使用-Wrangler-CLI-进行开发" class="headerlink" title="2. 使用 Wrangler CLI 进行开发"></a>2. 使用 Wrangler CLI 进行开发</h2><p><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/get-started/guide/#2-develop-with-wrangler-cli"></a></p>
+<p>C3 默认会在 Workers 项目中安装<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/wrangler/install-and-update/">Wrangler</a>（Workers 的命令行界面）。Wrangler 可用于<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/wrangler/commands/#init">创建</a>、<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/wrangler/commands/#dev">测试</a>和<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/wrangler/commands/#deploy">部署</a>Workers 项目。</p>
+<p>创建第一个 Worker 后，<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/wrangler/commands/#dev"><code>wrangler dev</code></a>在项目目录中运行命令以启动本地服务器，用于开发 Worker。这样您就可以在开发过程中在本地预览 Worker。</p>
+<p>终端窗口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx wrangler dev</span><br></pre></td></tr></table></figure>
+
+<p>如果您之前从未使用过 Wrangler，它将打开您的网络浏览器，以便您登录您的 Cloudflare 帐户。</p>
+<p>请访问<a target="_blank" rel="noopener" href="http://localhost:8787/">http://localhost:8787 ↗</a>查看您的 Worker。</p>
+<p>浏览器有问题吗？</p>
+<p>如果您在此步骤中遇到问题，或者您无法访问浏览器界面，请参阅<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/wrangler/commands/#login"><code>wrangler login</code></a>文档。</p>
+<h2 id="3-编写代码"><a href="#3-编写代码" class="headerlink" title="3. 编写代码"></a>3. 编写代码</h2><p><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/get-started/guide/#3-write-code"></a></p>
+<p>新项目生成并运行后，您就可以开始编写和编辑代码了。</p>
+<p>找到该<code>src/index.js</code>文件。该文件<code>index.js</code>将填充以下代码：</p>
+<p>原始 index.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;  async fetch(request, env, ctx) &#123;    return new Response(&quot;Hello World!&quot;);  &#125;,&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>代码说明</p>
+<p>这段代码块由几个不同的部分组成。</p>
+<p>已更新 index.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;  async fetch(request, env, ctx) &#123;    return new Response(&quot;Hello World!&quot;);  &#125;,&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>export default</code><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#default_exports_versus_named_exports">定义JavaScript 模块</a>需要 JavaScript 语法<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#default_exports_versus_named_exports">↗</a>。您的 Worker 必须默认导出一个对象，该对象包含与您的 Worker 应处理的事件相对应的属性。</p>
+<p>index.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;  async fetch(request, env, ctx) &#123;    return new Response(&quot;Hello World!&quot;);  &#125;,&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>当您的 Worker 收到 HTTP 请求时，将调用此<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/runtime-apis/handlers/fetch/"><code>fetch()</code>处理程序</a>。您可以在导出的对象中定义其他事件处理程序，以响应不同类型的事件。例如，添加一个<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/runtime-apis/handlers/scheduled/"><code>scheduled()</code>处理程序来响应通过</a><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/configuration/cron-triggers/">Cron 触发器</a>调用 Worker 的情况。</p>
+<p>此外，<code>fetch</code>处理程序始终会收到三个参数：<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/runtime-apis/handlers/fetch/"><code>request</code>，<code>env</code>和<code>context</code></a>。</p>
+<p>index.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;  async fetch(request, env, ctx) &#123;    return new Response(&quot;Hello World!&quot;);  &#125;,&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>Workers 运行时期望<code>fetch</code>处理程序返回一个<code>Response</code>对象或一个解析为<code>Response</code>对象的 Promise。在本例中，您将返回一个<code>Response</code>包含字符串的新对象<code>&quot;Hello World!&quot;</code>。</p>
+<p>将当前文件中的内容替换<code>index.js</code>为以下内容，即可更改文本输出。</p>
+<p>index.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;  async fetch(request, env, ctx) &#123;    return new Response(&quot;Hello Worker!&quot;);  &#125;,&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后保存文件并重新加载页面。你的 Worker 的输出将变为新文本。</p>
+<p>没有明显变化？</p>
+<p>如果您的工作进程的输出没有变化，请确保：</p>
+<ol>
+<li>您已保存更改<code>index.js</code>。</li>
+<li>你有<code>wrangler dev</code>跑步机。</li>
+<li>您已重新加载浏览器。</li>
+</ol>
+<h2 id="4-部署你的项目"><a href="#4-部署你的项目" class="headerlink" title="4. 部署你的项目"></a>4. 部署你的项目</h2><p><a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/get-started/guide/#4-deploy-your-project"></a></p>
+<p>通过 Wrangler 将 Worker 部署到<code>*.workers.dev</code>子域或<a target="_blank" rel="noopener" href="https://developers.cloudflare.com/workers/configuration/routing/custom-domains/">自定义域</a>。</p>
+<p>终端窗口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx wrangler deploy</span><br></pre></td></tr></table></figure>
+
+<p>如果您尚未配置任何子域或域，Wrangler 将在发布过程中提示您进行设置。</p>
+<p>在以下位置预览您的员工<code>&lt;YOUR_WORKER&gt;.&lt;YOUR_SUBDOMAIN&gt;.workers.dev</code>：</p>
+
+  </div>
+</article>
+
+
+
+
+
+
+    <div class="blog-post-comments" id="barrage-anchor">
+        <div id="comments-section">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/comments/">留言</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/categories/">分类</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/changrenyuan">项目</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%95%8C%E9%9D%A2"><span class="toc-number">1.</span> <span class="toc-text">命令行界面</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">先决条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84-Worker-%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.2.</span> <span class="toc-text">1. 创建一个新的 Worker 项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8-Wrangler-CLI-%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91"><span class="toc-number">1.3.</span> <span class="toc-text">2. 使用 Wrangler CLI 进行开发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">3. 编写代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%83%A8%E7%BD%B2%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.5.</span> <span class="toc-text">4. 部署你的项目</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/undefined/CloudflareWorkers2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/undefined/CloudflareWorkers2/&text=CloudflareWorkers 入门"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/undefined/CloudflareWorkers2/&is_video=false&description=CloudflareWorkers 入门"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CloudflareWorkers 入门&body=Check out this article: http://example.com/2025/undefined/CloudflareWorkers2/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/undefined/CloudflareWorkers2/&title=CloudflareWorkers 入门"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/undefined/CloudflareWorkers2/&name=CloudflareWorkers 入门&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/undefined/CloudflareWorkers2/&t=CloudflareWorkers 入门"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    changrenyuan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/comments/">留言</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/changrenyuan">项目</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+
+
+<!-- my Comments -->
+
+  <script src="/js/comment2.js"></script>
+
+
+
+<!-- ====== 看板娘 JS START ====== -->
+<script src="https://unpkg.com/live2d-widget@3.1.4/lib/L2Dwidget.min.js"></script>
+<script>
+  L2Dwidget.init({
+    model: {
+      jsonPath: "/live2d/model/z16/z16.model.json",
+      scale: 1
+    },
+    display: {
+      position: "right",
+      width: 100,
+      height: 200,
+      hOffset: 0,
+      vOffset: -20
+    },
+    mobile: {
+      show: false
+    },
+    react: {
+      opacityDefault: 0.7,
+      opacityOnHover: 0.95
+    },
+  });
+</script>
+<!-- ====== 看板娘 JS END ====== -->
+
+
+</body>
+</html>
