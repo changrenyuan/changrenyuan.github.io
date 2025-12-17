@@ -1,7 +1,7 @@
 // script.js - Cloudflare Worker 弹幕留言板注入脚本 (最终完整版)
 
 // 🚨 配置区域：请替换为您部署后的实际 Worker URL
-const WORKER_URL = "https://blog-worker.changrenyuan.workers.dev";
+const WORKER_URL = "https://api2.yikii.cn";
 
 // --- 弹幕配置 ---
 const BARRAGE_TRACKS = 1; // 强制单轨道排队
