@@ -1,5 +1,6 @@
 import { initCommentList } from './list.js';
 import { initBarrage } from './barrage.js';
+import { mountCommentDOM } from './mount.js';
 
 const config = {
   apiBase: '',
@@ -10,6 +11,13 @@ const config = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  const dom = mountCommentDOM();
+
+  if (!dom) return;
+
   initCommentList(config);
-  if (config.enableBarrage) initBarrage(config);
+
+  if (config.enableBarrage) {
+    initBarrage(config);
+  }
 });

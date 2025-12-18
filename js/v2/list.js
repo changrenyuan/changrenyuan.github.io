@@ -4,7 +4,10 @@ import { state } from './state.js';
 
 export async function initCommentList(config) {
   const container = document.getElementById('comment-list');
-  if (!container) return;
+  if (!container) {
+    console.warn('[comment] comment-list not found');
+    return;
+  }
 
   const data = await fetchComments(config.apiBase, config.postId);
   const frag = document.createDocumentFragment();
