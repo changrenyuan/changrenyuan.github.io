@@ -120,7 +120,7 @@ function loadScript(url) {
             try {
                 const title = encodeURIComponent(document.title);
                 // ！！！注意：请将此处替换为您 Worker 的真实访问地址！！！
-                const response = await fetch(`https://your-worker-name.workers.dev/api/ai/z16-chat?title=${title}`);
+                const response = await fetch(`https://api2.yikii.cn/api/ai/z16-chat?title=${title}`);
                 const data = await response.json();
                 return data.text || "指挥官，我在听哦。";
             } catch (err) {
