@@ -1,8 +1,8 @@
 /**
- * Live2D 高清一键加载脚本
- * 修复模糊问题，支持自定义位置与交互
+ * Live2D 深度定义脚本
+ * 功能：高清渲染 + 动态对话框 + 随机交互
  */
-
+if (window.innerWidth < 768) return; // 手机端直接退出不加载
 const dependencies = [
     '/js/pixi/pixi.min.js',
     '/js/pixi/live2dcubismcore.min.js',
@@ -29,67 +29,99 @@ function loadScript(url) {
         const L2D = PIXI.live2d;
         if (!L2D) throw new Error("Live2D 组件初始化失败");
 
-        let canvas = document.getElementById('live2d-canvas');
-        if (!canvas) {
-            canvas = document.createElement('canvas');
-            canvas.id = 'live2d-canvas';
-            document.body.appendChild(canvas);
-        }
-
-        // --- 样式定义（还原你之前的 display 参数） ---
-        Object.assign(canvas.style, {
+        // --- 1. 创建 UI 容器（画布 + 对话框） ---
+        const container = document.createElement('div');
+        container.id = 'live2d-container';
+        Object.assign(container.style, {
             position: 'fixed',
-            right: '0px',      // 对应 hOffset
-            bottom: '-20px',    // 对应 vOffset
+            right: '10px',
+            bottom: '0px',
             zIndex: '9999',
-            opacity: '0.7',    // 对应 opacityDefault
-            transition: 'opacity 0.3s',
+            width: '280px',
+            height: '350px',
             pointerEvents: 'none'
         });
+        document.body.appendChild(container);
 
-        // --- 核心优化：解决模糊问题 ---
+        // 创建对话气泡
+        const messageBox = document.createElement('div');
+        messageBox.id = 'live2d-message';
+        Object.assign(messageBox.style, {
+            width: '200px',
+            margin: '0 auto',
+            padding: '10px',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            border: '1px solid #ffcc00',
+            borderRadius: '10px',
+            fontSize: '14px',
+            textAlign: 'center',
+            opacity: '0',
+            transition: 'opacity 0.5s',
+            position: 'relative',
+            bottom: '-20px'
+        });
+        container.appendChild(messageBox);
+
+        const canvas = document.createElement('canvas');
+        container.appendChild(canvas);
+
+        // --- 2. 初始化高清 App ---
         const app = new PIXI.Application({
             view: canvas,
             autoStart: true,
             transparent: true,
             antialias: true,
-            // 关键：适配高倍屏像素比
             resolution: window.devicePixelRatio || 1,
-            autoDensity: true, 
-            width: 250,  // 画布宽度
-            height: 350  // 画布高度
+            autoDensity: true,
+            width: 280,
+            height: 350
         });
 
         const model = await L2D.Live2DModel.from("/live2d/model/z16/z16.model.json");
         app.stage.addChild(model);
-        canvas.style.pointerEvents = 'auto';
+        container.style.pointerEvents = 'auto';
 
-        // --- 模型位置与大小定义 ---
-        model.scale.set(0.15); // 如果开了高清适配后觉得太小，可以适当调大这个值
-        model.x = 0;
-        model.y = 0;
+        // --- 3. 模型定义 ---
+        model.scale.set(0.14);
         model.trackCursor = true;
 
-        // --- 交互定义 ---
-        
-        // 1. 鼠标悬停透明度（还原之前的 react 配置）
-        canvas.onmouseenter = () => canvas.style.opacity = '1';
-        canvas.onmouseleave = () => canvas.style.opacity = '0.7';
+        // 对话函数
+        function showMessage(text, timeout = 3000) {
+            messageBox.innerText = text;
+            messageBox.style.opacity = '1';
+            setTimeout(() => { messageBox.style.opacity = '0'; }, timeout);
+        }
 
-        // 2. 点击动作定义
+        // --- 4. 定义交互事件 ---
+        
+        // 刚进入页面时的欢迎语
+        setTimeout(() => {
+            showMessage("指挥官，Z16 报到！要一起去海边吗？");
+        }, 1000);
+
+        // 鼠标移入变亮
+        container.onmouseenter = () => { container.style.opacity = '1'; };
+        container.onmouseleave = () => { container.style.opacity = '0.8'; };
+
+        // 点击交互：点击不同部位有不同反应
         model.on('hit', (hitAreas) => {
-            console.log("点击区域:", hitAreas); // 可以在控制台看你点到了哪里
-            if (hitAreas.includes('body')) {
-                model.motion('tap_body'); 
-            }
             if (hitAreas.includes('head')) {
-                model.motion('talk'); 
+                showMessage("不可以摸头，会变笨的！");
+                model.motion('talk'); // 播放说话动作
+            } else if (hitAreas.includes('body')) {
+                showMessage("哇！痒痒的...");
+                model.motion('patted'); 
             }
         });
 
-        console.log("Live2D 高清版加载成功！");
+        // 闲置状态每隔 30 秒随机动一下
+        setInterval(() => {
+            if (messageBox.style.opacity === '0') {
+                model.motion('idle');
+            }
+        }, 30000);
 
     } catch (err) {
-        console.error("Live2D 启动失败:", err);
+        console.error("Live2D 定义失败:", err);
     }
 })();
