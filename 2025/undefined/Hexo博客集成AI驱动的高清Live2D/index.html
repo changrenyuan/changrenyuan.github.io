@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="1. 项目背景传统的 Live2D 插件（如 live2d-widget）存在以下痛点：  资源依赖不稳定：官方 CDN 经常连接失败导致模型无法加载。  画面模糊：在高分屏（Retina）上存在明显的锯齿和模糊。  交互死板：只能循环播放预设语录，缺乏智能化交互。   2. 核心解决方案A. 渲染引擎升级（PixiJS）摒弃了旧版的 DOM 操作，改用 PixiJS v5 配合 pixi-liv">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo博客集成AI驱动的高清Live2D">
+<meta property="og:url" content="http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/index.html">
+<meta property="og:site_name" content="春日朝花">
+<meta property="og:description" content="1. 项目背景传统的 Live2D 插件（如 live2d-widget）存在以下痛点：  资源依赖不稳定：官方 CDN 经常连接失败导致模型无法加载。  画面模糊：在高分屏（Retina）上存在明显的锯齿和模糊。  交互死板：只能循环播放预设语录，缺乏智能化交互。   2. 核心解决方案A. 渲染引擎升级（PixiJS）摒弃了旧版的 DOM 操作，改用 PixiJS v5 配合 pixi-liv">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-19T01:50:04.000Z">
+<meta property="article:modified_time" content="2025-12-19T01:52:10.226Z">
+<meta property="article:author" content="changrenyuan">
+<meta property="article:tag" content="-web -UI -AI Created">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-192x192.png">
+        
+      
+    
+    <!-- title -->
+    <title>Hexo博客集成AI驱动的高清Live2D</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/comments/">留言</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/changrenyuan">项目</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/undefined/CloudflareWorkers2/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&text=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&is_video=false&description=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hexo博客集成AI驱动的高清Live2D&body=Check out this article: http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&name=Hexo博客集成AI驱动的高清Live2D&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&t=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">1. 项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">2. 核心解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%8D%87%E7%BA%A7%EF%BC%88PixiJS%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">A. 渲染引擎升级（PixiJS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Cloudflare-Workers-AI-%E5%90%8E%E7%AB%AF%E9%9B%86%E6%88%90"><span class="toc-number">2.2.</span> <span class="toc-text">B. Cloudflare Workers AI 后端集成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BD%AE%E8%AF%A2%E4%B8%8E-UI-%E4%BA%A4%E4%BA%92"><span class="toc-number">2.3.</span> <span class="toc-text">C. 自动化轮询与 UI 交互</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%85%B3%E9%94%AE%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">3. 关键代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%EF%BC%9A%E9%AB%98%E6%B8%85%E6%B8%B2%E6%9F%93%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">前端：高清渲染配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%EF%BC%9AAI-%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">后端：AI 提示词工程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97"><span class="toc-number">4.</span> <span class="toc-text">4. 遇到的问题与避坑指南</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%B7%A8%E5%9F%9F%E4%B8%8E%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98-CORS"><span class="toc-number">4.1.</span> <span class="toc-text">1. 跨域与权限问题 (CORS)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Git-%E6%8F%90%E4%BA%A4%E6%97%B6%E7%9A%84%E6%9D%83%E9%99%90%E6%8A%A5%E9%94%99"><span class="toc-number">4.2.</span> <span class="toc-text">2. Git 提交时的权限报错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%A8%A1%E5%9E%8B%E5%AF%B9%E9%BD%90"><span class="toc-number">4.3.</span> <span class="toc-text">3. 模型对齐</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%95%88%E6%9E%9C%E5%B1%95%E6%9C%9B"><span class="toc-number">5.</span> <span class="toc-text">5. 效果展望</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Hexo博客集成AI驱动的高清Live2D
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">changrenyuan</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-12-19T01:50:04.000Z" class="dt-published" itemprop="datePublished">2025-12-19</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fa-solid fa-tag"></i>
+        <a class="p-category" href="/tags/web-UI-AI-Created/" rel="tag">-web -UI -AI Created</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="1-项目背景"><a href="#1-项目背景" class="headerlink" title="1. 项目背景"></a>1. 项目背景</h2><p>传统的 Live2D 插件（如 <code>live2d-widget</code>）存在以下痛点：</p>
+<ul>
+<li><p><strong>资源依赖不稳定</strong>：官方 CDN 经常连接失败导致模型无法加载。</p>
+</li>
+<li><p><strong>画面模糊</strong>：在高分屏（Retina）上存在明显的锯齿和模糊。</p>
+</li>
+<li><p><strong>交互死板</strong>：只能循环播放预设语录，缺乏智能化交互。</p>
+</li>
+</ul>
+<h2 id="2-核心解决方案"><a href="#2-核心解决方案" class="headerlink" title="2. 核心解决方案"></a>2. 核心解决方案</h2><h3 id="A-渲染引擎升级（PixiJS）"><a href="#A-渲染引擎升级（PixiJS）" class="headerlink" title="A. 渲染引擎升级（PixiJS）"></a>A. 渲染引擎升级（PixiJS）</h3><p>摒弃了旧版的 DOM 操作，改用 <strong>PixiJS v5</strong> 配合 <code>pixi-live2d-display</code> 插件进行 Canvas 渲染。</p>
+<ul>
+<li><p><strong>高清适配</strong>：通过 <code>window.devicePixelRatio</code> 获取屏幕物理像素比，开启 <code>autoDensity</code> 确保模型在 Retina 屏幕上依然锐利。</p>
+</li>
+<li><p><strong>本地化部署</strong>：将依赖项（PixiJS、Cubism Core、Adapter）全部放在博客 <code>/js/pixi/</code> 目录下，彻底解决网络报错 <code>Event {isTrusted: true, type: &#39;error&#39;}</code>。</p>
+</li>
+</ul>
+<h3 id="B-Cloudflare-Workers-AI-后端集成"><a href="#B-Cloudflare-Workers-AI-后端集成" class="headerlink" title="B. Cloudflare Workers AI 后端集成"></a>B. Cloudflare Workers AI 后端集成</h3><p>利用 Cloudflare 原生生态构建了一个轻量级 AI 中转站：</p>
+<ul>
+<li><p><strong>Serverless 架构</strong>：基于 Hono 框架，在 Cloudflare Workers 上部署 <code>api/ai/z16-chat</code> 接口。</p>
+</li>
+<li><p><strong>Llama-3.1 驱动</strong>：使用 <code>env.AI.run</code> 直接调用 <code>@cf/meta/llama-3.1-8b-instruct</code> 模型。</p>
+</li>
+<li><p><strong>上下文感知</strong>：后端通过请求头获取用户的<strong>地理位置</strong>，通过 Query 参数获取<strong>当前文章标题</strong>，动态生成 Prompt。</p>
+</li>
+</ul>
+<h3 id="C-自动化轮询与-UI-交互"><a href="#C-自动化轮询与-UI-交互" class="headerlink" title="C. 自动化轮询与 UI 交互"></a>C. 自动化轮询与 UI 交互</h3><ul>
+<li><p><strong>10s 轮询机制</strong>：前端 <code>setInterval</code> 每 10 秒请求一次 AI 接口，并检查对话框状态，实现看板娘的“自发性”发言。</p>
+</li>
+<li><p><strong>动态 UI 注入</strong>：完全移除 HTML 预留标签，改用 JS 动态注入容器、Canvas 和对话气泡，实现零侵入式集成。</p>
+</li>
+<li><p><strong>动作联动</strong>：通过监听模型 <code>hit</code> 事件（触摸头、身体）触发特定 <code>motion</code>，并联动 AI 文本显示。</p>
+</li>
+</ul>
+<h2 id="3-关键代码实现"><a href="#3-关键代码实现" class="headerlink" title="3. 关键代码实现"></a>3. 关键代码实现</h2><h3 id="前端：高清渲染配置"><a href="#前端：高清渲染配置" class="headerlink" title="前端：高清渲染配置"></a>前端：高清渲染配置</h3><p>JavaScript</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const app = new PIXI.Application(&#123;</span><br><span class="line">    view: canvas,</span><br><span class="line">    resolution: window.devicePixelRatio || 1, // 核心：高分屏支持</span><br><span class="line">    autoDensity: true,</span><br><span class="line">    antialias: true,</span><br><span class="line">    transparent: true,</span><br><span class="line">    width: 280,</span><br><span class="line">    height: 400</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="后端：AI-提示词工程"><a href="#后端：AI-提示词工程" class="headerlink" title="后端：AI 提示词工程"></a>后端：AI 提示词工程</h3><p>JavaScript</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 在 Worker 中构建感知 Prompt</span><br><span class="line">content: `你现在是看板娘Z16。用户正在看文章《$&#123;postTitle&#125;》，用户来自：$&#123;locationInfo.displayLocation&#125;。请说一句20字以内的吐槽或问候。`</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-遇到的问题与避坑指南"><a href="#4-遇到的问题与避坑指南" class="headerlink" title="4. 遇到的问题与避坑指南"></a>4. 遇到的问题与避坑指南</h2><h3 id="1-跨域与权限问题-CORS"><a href="#1-跨域与权限问题-CORS" class="headerlink" title="1. 跨域与权限问题 (CORS)"></a>1. 跨域与权限问题 (CORS)</h3><p>由于后端 Worker 与博客可能不在同一域名，必须在 Hono 中开启 <code>cors()</code> 中件间，允许前端跨域访问。</p>
+<h3 id="2-Git-提交时的权限报错"><a href="#2-Git-提交时的权限报错" class="headerlink" title="2. Git 提交时的权限报错"></a>2. Git 提交时的权限报错</h3><ul>
+<li><p><strong>现象</strong>：文件所有者显示为 <code>BUILTIN/Administrators</code>。</p>
+</li>
+<li><p><strong>原因</strong>：由于使用管理员权限运行终端或 Git 安全策略更新。</p>
+</li>
+<li><p><strong>对策</strong>：使用 <code>git config --global --add safe.directory &quot;*&quot;</code> 标记目录安全，或使用 <code>takeown</code> 修复文件所有权。</p>
+</li>
+</ul>
+<h3 id="3-模型对齐"><a href="#3-模型对齐" class="headerlink" title="3. 模型对齐"></a>3. 模型对齐</h3><p>使用 <code>model.anchor.set(0.5, 1)</code> 将锚点设在脚底，配合 <code>model.y = app.screen.height</code>，确保角色在各种分辨率下都能“站在”屏幕底边。</p>
+<hr>
+<h2 id="5-效果展望"><a href="#5-效果展望" class="headerlink" title="5. 效果展望"></a>5. 效果展望</h2><p>通过这一套架构，看板娘从一个“静态贴纸”进化成了<strong>能感知环境、能理解内容、能智能对话</strong>的虚拟助理。未来可以进一步接入 <strong>RAG（检索增强生成）</strong>，让看板娘能够根据博客的全部历史文章内容进行深度问答。</p>
+
+  </div>
+</article>
+
+
+
+
+
+
+    <div class="blog-post-comments" id="barrage-anchor">
+        <div id="comments-section">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/comments/">留言</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/categories/">分类</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/changrenyuan">项目</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%A1%B9%E7%9B%AE%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">1. 项目背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">2. 核心解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#A-%E6%B8%B2%E6%9F%93%E5%BC%95%E6%93%8E%E5%8D%87%E7%BA%A7%EF%BC%88PixiJS%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">A. 渲染引擎升级（PixiJS）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B-Cloudflare-Workers-AI-%E5%90%8E%E7%AB%AF%E9%9B%86%E6%88%90"><span class="toc-number">2.2.</span> <span class="toc-text">B. Cloudflare Workers AI 后端集成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C-%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BD%AE%E8%AF%A2%E4%B8%8E-UI-%E4%BA%A4%E4%BA%92"><span class="toc-number">2.3.</span> <span class="toc-text">C. 自动化轮询与 UI 交互</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%85%B3%E9%94%AE%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">3. 关键代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%EF%BC%9A%E9%AB%98%E6%B8%85%E6%B8%B2%E6%9F%93%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">前端：高清渲染配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%EF%BC%9AAI-%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">后端：AI 提示词工程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97"><span class="toc-number">4.</span> <span class="toc-text">4. 遇到的问题与避坑指南</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%B7%A8%E5%9F%9F%E4%B8%8E%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98-CORS"><span class="toc-number">4.1.</span> <span class="toc-text">1. 跨域与权限问题 (CORS)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Git-%E6%8F%90%E4%BA%A4%E6%97%B6%E7%9A%84%E6%9D%83%E9%99%90%E6%8A%A5%E9%94%99"><span class="toc-number">4.2.</span> <span class="toc-text">2. Git 提交时的权限报错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%A8%A1%E5%9E%8B%E5%AF%B9%E9%BD%90"><span class="toc-number">4.3.</span> <span class="toc-text">3. 模型对齐</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%95%88%E6%9E%9C%E5%B1%95%E6%9C%9B"><span class="toc-number">5.</span> <span class="toc-text">5. 效果展望</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&text=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&is_video=false&description=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hexo博客集成AI驱动的高清Live2D&body=Check out this article: http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&title=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&name=Hexo博客集成AI驱动的高清Live2D&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/undefined/Hexo%E5%8D%9A%E5%AE%A2%E9%9B%86%E6%88%90AI%E9%A9%B1%E5%8A%A8%E7%9A%84%E9%AB%98%E6%B8%85Live2D/&t=Hexo博客集成AI驱动的高清Live2D"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2025
+    changrenyuan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/comments/">留言</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/changrenyuan">项目</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+
+
+<!-- my Comments -->
+
+  <script src="/js/comment2.js"></script>
+
+
+
+<!-- ====== 看板娘 JS START ====== -->
+
+
+<script src="/js/live2d-pixiconfig.js"></script>
+
+<!-- ====== 看板娘 JS END ====== -->
+
+
+</body>
+</html>
