@@ -130,7 +130,7 @@ function loadScript(url) {
                 const quote = await fetchAI();
                 showMessage(quote);
             }
-        }, 10000);
+        }, 60000);
 
         // 点击交互
         model.on('hit', (areas) => {

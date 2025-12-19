@@ -457,5 +457,5 @@ document.addEventListener('DOMContentLoaded', () => {
     injectCommentsSection(commentsAnchor, barrageContainer, postId);
 
     // 4. 启动弹幕定时器 (传入 postId)
-    setInterval(() => fetchAndSpawnNewBarrages(barrageContainer, postId), 5000);
+    setInterval(() => fetchAndSpawnNewBarrages(barrageContainer, postId), 60000);
 });
