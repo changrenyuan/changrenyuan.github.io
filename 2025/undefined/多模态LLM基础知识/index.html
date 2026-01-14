@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="多模态LLM基础知识：LLM如何处理文本、图像、音频和视频 长期以来，人工智能系统都是局限于单一感官的专家。例如：  计算机视觉模型可以识别照片中的物体，但无法描述它们所看到的内容。  自然语言处理系统可以写出优美的散文，但却无法理解图像。  音频处理模型可以转录语音，但没有视觉上下文。   这种碎片化标志着人类体验世界方式的根本性转变。人类认知本质上是多模态的。我们并非仅仅阅读文字或观看图像。我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多模态LLM基础知识">
+<meta property="og:url" content="http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="春日朝花">
+<meta property="og:description" content="多模态LLM基础知识：LLM如何处理文本、图像、音频和视频 长期以来，人工智能系统都是局限于单一感官的专家。例如：  计算机视觉模型可以识别照片中的物体，但无法描述它们所看到的内容。  自然语言处理系统可以写出优美的散文，但却无法理解图像。  音频处理模型可以转录语音，但没有视觉上下文。   这种碎片化标志着人类体验世界方式的根本性转变。人类认知本质上是多模态的。我们并非仅仅阅读文字或观看图像。我">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!I-fb!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F607c0632-7248-4c02-b459-b98aa4c57f3a_3160x1682.png">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!nGJT!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff4f588dc-6b47-49c7-9c18-4f1780e6f6e3_4438x1682.png">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!ZRKx!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F51b7ed9c-cdbd-4858-bc0e-0e8730d5a856_3114x3930.png">
+<meta property="og:image" content="https://substackcdn.com/image/fetch/$s_!HSsn!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2d3289c9-f53d-4b61-8e44-6fd08009a765_4438x1682.png">
+<meta property="article:published_time" content="2025-12-25T06:13:31.000Z">
+<meta property="article:modified_time" content="2025-12-25T09:15:25.297Z">
+<meta property="article:author" content="changrenyuan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://substackcdn.com/image/fetch/$s_!I-fb!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F607c0632-7248-4c02-b459-b98aa4c57f3a_3160x1682.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon-192x192.png">
+        
+      
+    
+    <!-- title -->
+    <title>多模态LLM基础知识</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="目录"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="顶部" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/comments/">留言</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/changrenyuan">项目</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="上一篇" href="/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81%20LLM%20%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%9ALLM%20%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%96%87%E6%9C%AC%E3%80%81%E5%9B%BE%E5%83%8F%E3%80%81%E9%9F%B3%E9%A2%91%E5%92%8C%E8%A7%86%E9%A2%91/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="下一篇" href="/2025/undefined/googleTPU/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="返回顶部" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="分享文章" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&text=多模态LLM基础知识"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&is_video=false&description=多模态LLM基础知识"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=多模态LLM基础知识&body=Check out this article: http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&name=多模态LLM基础知识&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&t=多模态LLM基础知识"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%9ALLM%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%96%87%E6%9C%AC%E3%80%81%E5%9B%BE%E5%83%8F%E3%80%81%E9%9F%B3%E9%A2%91%E5%92%8C%E8%A7%86%E9%A2%91"><span class="toc-number">1.</span> <span class="toc-text">多模态LLM基础知识：LLM如何处理文本、图像、音频和视频</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E7%A7%8D%E5%85%B1%E4%BA%AB%E7%9A%84%E6%95%B0%E5%AD%A6%E8%AF%AD%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">一种共享的数学语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E9%83%A8%E5%88%86%E6%9E%B6%E6%9E%84%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AD%A6%E4%B9%A0%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86%E7%9A%84%E6%9E%84%E5%BB%BA%E6%A8%A1%E5%9D%97"><span class="toc-number">1.2.</span> <span class="toc-text">三部分架构：多模态学习生命周期管理的构建模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%80%81%E7%89%B9%E5%AE%9A%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">模态特定编码器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%95%E5%BD%B1%E5%B1%82%EF%BC%9A%E7%BF%BB%E8%AF%91%E5%99%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">投影层：翻译器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E4%B8%BB%E5%B9%B2"><span class="toc-number">1.2.3.</span> <span class="toc-text">语言模型主干</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%AE%A9%E5%9B%BE%E5%83%8F%E6%88%90%E4%B8%BA%E6%B3%95%E5%AD%A6%E7%A1%95%E5%A3%AB%E4%B9%9F%E8%83%BD%E7%90%86%E8%A7%A3%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="toc-number">1.3.</span> <span class="toc-text">如何让图像成为法学硕士也能理解的东西</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenAI-CLIP"><span class="toc-number">1.4.</span> <span class="toc-text">OpenAI CLIP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91%E5%A6%82%E4%BD%95%E5%8F%98%E5%BE%97%E6%98%93%E4%BA%8E%E7%90%86%E8%A7%A3"><span class="toc-number">1.5.</span> <span class="toc-text">音频如何变得易于理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%B9%E8%AE%AD%E8%BF%87%E7%A8%8B"><span class="toc-number">1.6.</span> <span class="toc-text">培训过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%9A%E7%89%B9%E5%BE%81%E5%AF%B9%E9%BD%90"><span class="toc-number">1.6.1.</span> <span class="toc-text">第一阶段：特征对齐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%EF%BC%9A%E8%A7%86%E8%A7%89%E6%8C%87%E5%AF%BC%E8%B0%83%E6%95%B4"><span class="toc-number">1.6.2.</span> <span class="toc-text">第二阶段：视觉指导调整</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">1.7.</span> <span class="toc-text">结论</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        多模态LLM基础知识
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">changrenyuan</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-12-25T06:13:31.000Z" class="dt-published" itemprop="datePublished">2025-12-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="多模态LLM基础知识：LLM如何处理文本、图像、音频和视频"><a href="#多模态LLM基础知识：LLM如何处理文本、图像、音频和视频" class="headerlink" title="多模态LLM基础知识：LLM如何处理文本、图像、音频和视频"></a>多模态LLM基础知识：LLM如何处理文本、图像、音频和视频</h1><hr>
+<p>长期以来，人工智能系统都是局限于单一感官的专家。例如：</p>
+<ul>
+<li><p>计算机视觉模型可以识别照片中的物体，但无法描述它们所看到的内容。</p>
+</li>
+<li><p>自然语言处理系统可以写出优美的散文，但却无法理解图像。</p>
+</li>
+<li><p>音频处理模型可以转录语音，但没有视觉上下文。</p>
+</li>
+</ul>
+<p>这种碎片化标志着人类体验世界方式的根本性转变。人类认知本质上是多模态的。我们并非仅仅阅读文字或观看图像。我们会同时观察面部表情并聆听语气。我们会将狗的视觉形状与狗吠声以及“狗”这个文字联系起来。</p>
+<p>要创造出真正能在现实世界中运行的人工智能，这些分离的感官通道需要融合在一起。</p>
+<p>多模态大型语言模型正是这种融合的体现。例如，GPT-4o 仅需 232 毫秒即可响应语音输入，速度与人类对话速度相当。谷歌的 Gemini 甚至可以在一次提示下处理长达一小时的视频。</p>
+<p>这些能力源于一个能够同时看、听和读的统一神经网络。</p>
+<p>但是，单个人工智能系统如何理解如此截然不同的数据类型呢？在本文中，我们将尝试回答这个问题。</p>
+<hr>
+<h2 id="一种共享的数学语言"><a href="#一种共享的数学语言" class="headerlink" title="一种共享的数学语言"></a>一种共享的数学语言</h2><p>多模态学习语言模型（LLM）的核心突破其实很简单。无论输入是文本、图像还是音频，都会被转换成同一种数学表示形式，称为嵌入向量。正如人脑将光子、声波和文字符号转换成统一的神经信号一样，多模态学习语言模型也将各种数据类型转换成占据同一数学空间的向量。</p>
+<p><img src="https://substackcdn.com/image/fetch/$s_!I-fb!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F607c0632-7248-4c02-b459-b98aa4c57f3a_3160x1682.png"></p>
+<p>让我们来看一个具体的例子。一张狗的照片、“狗”这个词（口语）和“狗”的文字，都可以转换成高维数学空间中的点。这些点会聚集在一起，彼此靠近，因为它们代表的是同一个概念。</p>
+<p>这种统一的表征方式实现了研究人员所谓的跨模态推理。该模型能够理解狗吠声、金毛犬的照片以及“这只狗很开心”这句话都与同一个潜在概念相关。该模型无需为每种模态单独构建系统。相反，它通过单一架构处理所有内容，将视觉图像和音频片段视为文本标记进行处理。</p>
+<h2 id="三部分架构：多模态学习生命周期管理的构建模块"><a href="#三部分架构：多模态学习生命周期管理的构建模块" class="headerlink" title="三部分架构：多模态学习生命周期管理的构建模块"></a>三部分架构：多模态学习生命周期管理的构建模块</h2><p>下图展示了多模态LLM工作原理的概览：</p>
+<p><img src="https://substackcdn.com/image/fetch/$s_!nGJT!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff4f588dc-6b47-49c7-9c18-4f1780e6f6e3_4438x1682.png"></p>
+<p>现代多模态逻辑层模型由三个基本组件组成，它们协同工作以处理各种输入。</p>
+<h3 id="模态特定编码器"><a href="#模态特定编码器" class="headerlink" title="模态特定编码器"></a>模态特定编码器</h3><p>第一个组件负责将原始感官数据转换为初始数学表示。</p>
+<ul>
+<li><p>Vision Transformers 将图像视为句子来处理，将照片分割成小块，并将每个小块视为一个单词来处理。</p>
+</li>
+<li><p>音频编码器将声波转换为频谱图，频谱图是一种类似视觉的表示，显示频率如何随时间变化。</p>
+</li>
+</ul>
+<p>这些编码器通常会在海量数据集上进行预训练，从而在特定任务上变得非常熟练。</p>
+<h3 id="投影层：翻译器"><a href="#投影层：翻译器" class="headerlink" title="投影层：翻译器"></a>投影层：翻译器</h3><p>第二个组件起到桥梁的作用。尽管两个编码器都生成向量，但这些向量存在于不同的数学空间中。换句话说，视觉编码器对“猫”的表示与语言模型对单词“猫”的表示位于不同的几何区域。</p>
+<p>投影层将这些不同的表征对齐到语言模型运行的共享空间中。通常，这些投影器非常简单，有时只是一个线性变换或一个小型两层神经网络。尽管它们很简单，但它们对于使模型能够理解视觉和听觉概念至关重要。</p>
+<h3 id="语言模型主干"><a href="#语言模型主干" class="headerlink" title="语言模型主干"></a>语言模型主干</h3><p>第三个组成部分是核心LLM，例如GPT或LLaMA。</p>
+<p>这就是负责实际推理和生成响应的“大脑”。它接收所有输入，这些输入以标记序列的形式呈现，无论这些标记源自文本、图像块还是音频片段。</p>
+<p>该语言模型对它们一视同仁，所有数据都通过与纯文本模型相同的Transformer架构进行处理。这种统一的处理方式使得模型能够像处理纯文本一样自然地进行跨模态推理。</p>
+<p>请参见下图，图中显示了变压器的架构：</p>
+<p><img src="https://substackcdn.com/image/fetch/$s_!ZRKx!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F51b7ed9c-cdbd-4858-bc0e-0e8730d5a856_3114x3930.png"></p>
+<h2 id="如何让图像成为法学硕士也能理解的东西"><a href="#如何让图像成为法学硕士也能理解的东西" class="headerlink" title="如何让图像成为法学硕士也能理解的东西"></a>如何让图像成为法学硕士也能理解的东西</h2><p>现代多模态视觉的突破源于2020年一篇标题令人印象深刻的论文：“一图胜过16x16个字”。该论文提出了将图像处理得像句子一样，把小块图像视为标记的思想。</p>
+<p>该过程包含以下几个步骤：</p>
+<ul>
+<li><p>首先，将图像分割成固定大小的网格，通常每个网格包含 16x16 像素的色块。</p>
+</li>
+<li><p>一张标准的 224x224 像素图像大约会被分割成 196 个不同的色块，每个色块代表一个小的正方形区域。</p>
+</li>
+<li><p>每个图像块都从二维网格展平为表示像素强度的一维数字向量。</p>
+</li>
+<li><p>添加位置嵌入，以便模型知道每个色块在原始图像中的来源。</p>
+</li>
+<li><p>这些补丁嵌入流经 Transformer 层，其中注意力机制允许补丁相互学习。</p>
+</li>
+</ul>
+<p>注意力机制是理解产生的关键所在。一个显示狗耳朵的图像块会学习与附近显示狗的脸和身体的图像块建立联系。描绘海滩场景的图像块会学习彼此关联，从而代表沙子和水的更广阔背景。到了最后一层，这些视觉标记承载着丰富的上下文信息。模型不再仅仅看到“棕色像素”，而是理解“一只金毛寻回犬坐在沙滩上”。</p>
+<h2 id="OpenAI-CLIP"><a href="#OpenAI-CLIP" class="headerlink" title="OpenAI CLIP"></a>OpenAI CLIP</h2><p>第二项关键创新是OpenAI开发的CLIP。CLIP通过改变其根本目标，彻底革新了视觉编码器的训练方式。CLIP不再使用已标注的图像类别进行训练，而是使用来自互联网的4亿对图像及其文本描述进行训练。</p>
+<p>CLIP采用对比学习方法。给定一批图像-文本对，它会计算所有图像和所有文本描述的嵌入向量。目标是最大化正确图像-文本对嵌入向量之间的相似度，同时最小化错误配对嵌入向量之间的相似度。例如，一张狗的图片应该生成一个接近“公园里的一只狗”的向量，但与“一盘意大利面”的向量相差甚远。</p>
+<h2 id="音频如何变得易于理解"><a href="#音频如何变得易于理解" class="headerlink" title="音频如何变得易于理解"></a>音频如何变得易于理解</h2><p>音频给语言模型带来了独特的挑战。</p>
+<p>与自然地由离散词语组成的文本或可以分割成空间区域的图像不同，声音是连续且具有时间性的。例如，一段采样率为 16,000 Hz 的 30 秒音频片段包含 480,000 个独立的数据点。将如此庞大的数据流直接输入到转换器中，在计算上既不现实又效率低下。因此，解决方案是将音频转换为更易于处理的表示形式。</p>
+<p>这项技术的关键创新在于将音频转换为频谱图，频谱图本质上是声音的图像。该过程涉及多种数学变换：</p>
+<ul>
+<li><p>较长的音频信号被分割成许多重叠的小窗口，每个窗口通常为 25 毫秒。</p>
+</li>
+<li><p>快速傅里叶变换提取每个窗口中存在的频率。</p>
+</li>
+<li><p>这些频率被映射到梅尔频率标度上，该标度通过提高低频的分辨率来匹配人类的听觉敏感度。</p>
+</li>
+<li><p>最终得到一张二维热图，其中时间轴代表时间，频率轴代表频率，颜色强度代表体积。</p>
+</li>
+</ul>
+<p>对于人工智能模型而言，梅尔频谱图看起来像一幅图像。对于一段 30 秒的音频片段，它可能会生成一个 80x3000 的网格，这本质上是声学模式的可视化表示，可以像处理照片一样进行处理。</p>
+<p>音频转换成频谱图后，模型就可以应用与视觉模型相同的技术。音频频谱图转换器会将频谱图分割成多个区域，就像分割图像一样。例如，像 Whisper 这样的模型，经过 68 万小时多语言音频的训练，在这种转换方面表现出色。</p>
+<h2 id="培训过程"><a href="#培训过程" class="headerlink" title="培训过程"></a>培训过程</h2><p>培训过程分为以下几个阶段：</p>
+<h3 id="第一阶段：特征对齐"><a href="#第一阶段：特征对齐" class="headerlink" title="第一阶段：特征对齐"></a>第一阶段：特征对齐</h3><p>多模态LLM的训练通常分两个不同的阶段进行。</p>
+<p>第一阶段完全专注于对齐，旨在教会模型同一概念的视觉和文本表示应该相似。在此阶段，预训练的视觉编码器和预训练的语言模型均保持冻结状态。训练过程中仅更新投影层的权重。</p>
+<h3 id="第二阶段：视觉指导调整"><a href="#第二阶段：视觉指导调整" class="headerlink" title="第二阶段：视觉指导调整"></a>第二阶段：视觉指导调整</h3><p>仅靠对齐不足以满足实际应用需求。模型或许能够描述图像内容，但却无法应对诸如“为什么这个人看起来很悲伤？”或“比较两张图表”之类的复杂任务。</p>
+<p>视觉指令调整通过训练模型来遵循复杂的多模态指令，从而解决这个问题。</p>
+<p>在此阶段，投影层继续训练，语言模型也会进行更新，通常采用参数效率高的方法。训练数据转变为对话形式的指令-反应数据集。</p>
+<p><img src="https://substackcdn.com/image/fetch/$s_!HSsn!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2d3289c9-f53d-4b61-8e44-6fd08009a765_4438x1682.png"></p>
+<p>这项研究的一项重要创新在于利用 GPT-4 生成合成训练数据。研究人员向 GPT-4 输入图像的文本描述，并引导它围绕这些图像生成逼真的对话。利用这些合成的高质量数据进行训练，能够有效地将 GPT-4 的推理能力提炼到多模态模型中，使其能够进行细致入微的视觉对话，而不仅仅是描述所看到的内容。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>多模态语言学习模型（LLM）之所以能够展现其卓越的能力，是因为它遵循一个统一的原则。通过将所有输入转换为占据同一数学空间的嵌入向量序列，单个Transformer架构就能像处理语言本身一样流畅地进行跨模态推理。</p>
+<p>支撑这一功能的架构创新代表着真正的进步：视觉转换器将图像视为视觉句子，对比学习在没有明确标签的情况下对齐模态，以及交叉注意力机制能够跨不同数据类型进行选择性信息检索。</p>
+<p>未来发展方向是能够理解和生成所有模态的“任意对任意”模型。换句话说，就是能够在一次响应中输出文本、生成图像并合成语音的模型。</p>
+
+  </div>
+</article>
+
+
+
+
+
+
+    <div class="blog-post-comments" id="barrage-anchor">
+        <div id="comments-section">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">首页</a></li>
+        
+          <li><a href="/about/">关于</a></li>
+        
+          <li><a href="/comments/">留言</a></li>
+        
+          <li><a href="/tags/">标签</a></li>
+        
+          <li><a href="/categories/">分类</a></li>
+        
+          <li><a href="/archives/">归档</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="http://github.com/changrenyuan">项目</a></li>
+        
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%9ALLM%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E6%96%87%E6%9C%AC%E3%80%81%E5%9B%BE%E5%83%8F%E3%80%81%E9%9F%B3%E9%A2%91%E5%92%8C%E8%A7%86%E9%A2%91"><span class="toc-number">1.</span> <span class="toc-text">多模态LLM基础知识：LLM如何处理文本、图像、音频和视频</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E7%A7%8D%E5%85%B1%E4%BA%AB%E7%9A%84%E6%95%B0%E5%AD%A6%E8%AF%AD%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">一种共享的数学语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E9%83%A8%E5%88%86%E6%9E%B6%E6%9E%84%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81%E5%AD%A6%E4%B9%A0%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E7%AE%A1%E7%90%86%E7%9A%84%E6%9E%84%E5%BB%BA%E6%A8%A1%E5%9D%97"><span class="toc-number">1.2.</span> <span class="toc-text">三部分架构：多模态学习生命周期管理的构建模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%80%81%E7%89%B9%E5%AE%9A%E7%BC%96%E7%A0%81%E5%99%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">模态特定编码器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%95%E5%BD%B1%E5%B1%82%EF%BC%9A%E7%BF%BB%E8%AF%91%E5%99%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">投影层：翻译器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E4%B8%BB%E5%B9%B2"><span class="toc-number">1.2.3.</span> <span class="toc-text">语言模型主干</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%AE%A9%E5%9B%BE%E5%83%8F%E6%88%90%E4%B8%BA%E6%B3%95%E5%AD%A6%E7%A1%95%E5%A3%AB%E4%B9%9F%E8%83%BD%E7%90%86%E8%A7%A3%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="toc-number">1.3.</span> <span class="toc-text">如何让图像成为法学硕士也能理解的东西</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenAI-CLIP"><span class="toc-number">1.4.</span> <span class="toc-text">OpenAI CLIP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91%E5%A6%82%E4%BD%95%E5%8F%98%E5%BE%97%E6%98%93%E4%BA%8E%E7%90%86%E8%A7%A3"><span class="toc-number">1.5.</span> <span class="toc-text">音频如何变得易于理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%B9%E8%AE%AD%E8%BF%87%E7%A8%8B"><span class="toc-number">1.6.</span> <span class="toc-text">培训过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%9A%E7%89%B9%E5%BE%81%E5%AF%B9%E9%BD%90"><span class="toc-number">1.6.1.</span> <span class="toc-text">第一阶段：特征对齐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%EF%BC%9A%E8%A7%86%E8%A7%89%E6%8C%87%E5%AF%BC%E8%B0%83%E6%95%B4"><span class="toc-number">1.6.2.</span> <span class="toc-text">第二阶段：视觉指导调整</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">1.7.</span> <span class="toc-text">结论</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&text=多模态LLM基础知识"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&is_video=false&description=多模态LLM基础知识"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=多模态LLM基础知识&body=Check out this article: http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=多模态LLM基础知识"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&name=多模态LLM基础知识&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2025/undefined/%E5%A4%9A%E6%A8%A1%E6%80%81LLM%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&t=多模态LLM基础知识"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2026
+    changrenyuan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">首页</a></li><!--
+     --><!--
+       --><li><a href="/about/">关于</a></li><!--
+     --><!--
+       --><li><a href="/comments/">留言</a></li><!--
+     --><!--
+       --><li><a href="/tags/">标签</a></li><!--
+     --><!--
+       --><li><a href="/categories/">分类</a></li><!--
+     --><!--
+       --><li><a href="/archives/">归档</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="http://github.com/changrenyuan">项目</a></li><!--
+     --><!--
+       --><li><a href="/search/">搜索</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板！\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功！");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+
+
+<!-- my Comments -->
+
+  <script src="/js/comment2.js"></script>
+
+
+
+<!-- ====== 看板娘 JS START ====== -->
+
+
+<script src="/js/live2d-pixiconfig.js"></script>
+
+<!-- ====== 看板娘 JS END ====== -->
+
+
+</body>
+</html>
